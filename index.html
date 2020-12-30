@@ -17,14 +17,14 @@
             <div class="row">
         
     <div id="app">
-        <div class="col-md-6">
+        <div class="col-md-12">
                 <div class="container">
               
                 <input type="text" v-model="valorFatura" placeholder="Digite o valor da fatura" class="form-control mt-3"> 
                 <input type="text" v-model="item" class="form-control mt-3" placeholder="Digite o primeiro item">
                 <button  v-if="item > 0 && item != ''" class="btn btn-success mt-3" @click.lazy="adicionarItem">+</button>
-                <span class="bg-light text-success h3" v-else="else">Por favor, insira um valor acima de 0.</span>
-            </div>
+                <span class="bg-light text-success h3 " v-else="else">Por favor, insira um valor acima de 0.</span>
+        
             <h2>Dados computados:</h2>
             <ul class="list-group">
             <li class="list-group-item">
@@ -45,10 +45,15 @@
             </li >
 
             <li class="list-group-item">
-                <p>A sua parte na fatura é: </p>
+                
                 <fieldset>  
-                  <h2>{{total}}</h2>
-                </fieldset>
+                    <p>A sua parte na fatura é: </p>
+                    {{formataSomatorio}}
+                    <hr>
+                    <p>A parte da outra pessoa é:</p>
+                     {{total}}
+        
+            </fieldset>
             </li>
             </ul>
            
@@ -87,9 +92,14 @@
             computed:{
                 somatorio(){
                 const total  = this.itens_array.reduce((ini,elem)=> ini+elem,0);
-                    return total;
+               
+                return total;
                 },
+                formataSomatorio(){
 
+                    const formataSoma = this.somatorio.toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
+                    return formataSoma
+                },  
                 formataTotal(){
                     
                     const real = (parseInt(this.valorFatura))   
